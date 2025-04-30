@@ -13,13 +13,9 @@ import (
 // defaultCmd represents the default command
 var defaultCmd = &cobra.Command{
 	Use:   "default",
-	Short: "A brief description of your command",
-	Long: `A longer description that spans multiple lines and likely contains examples
-and usage of using your command. For example:
-
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
+	Aliases: []string{"d"},
+	Short: "Apply default version",
+	Long: ``,
 	Run: func(cmd *cobra.Command, args []string) {
 		if ok, err := utils.ConfigExists(); !ok || err != nil {
 			log.Fatal("Config file does not exist")
