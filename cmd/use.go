@@ -13,15 +13,15 @@ import (
 
 // useCmd represents the use command
 var useCmd = &cobra.Command{
-	Use:   "use [version]",
-	Short: "Set a version of PHP to use",
-	Long: ``,
+	Use:     "use [version]",
+	Short:   "Set a version of PHP to use",
+	Long:    ``,
 	Aliases: []string{"u"},
-	Args: cobra.ExactArgs(1),
+	Args:    cobra.ExactArgs(1),
 	Run: func(cmd *cobra.Command, args []string) {
 		version := args[0]
 		setDefault := cmd.Flag("default").Value.String() == "true"
-		if ! utils.VersionExists( version ) {
+		if !utils.VersionExists(version) {
 			fmt.Printf("Version %s does not exist\n", version)
 			os.Exit(1)
 		}
@@ -32,7 +32,7 @@ var useCmd = &cobra.Command{
 		}
 
 		fmt.Printf("Version %s set successfully\n", version)
-				if setDefault {
+		if setDefault {
 			config := utils.GetConfig()
 			config.SetDefault(version)
 		}

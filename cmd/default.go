@@ -12,10 +12,10 @@ import (
 
 // defaultCmd represents the default command
 var defaultCmd = &cobra.Command{
-	Use:   "default",
+	Use:     "default",
 	Aliases: []string{"d"},
-	Short: "Apply default version",
-	Long: ``,
+	Short:   "Apply default version",
+	Long:    ``,
 	Run: func(cmd *cobra.Command, args []string) {
 		if ok, err := utils.ConfigExists(); !ok || err != nil {
 			log.Fatal("Config file does not exist")

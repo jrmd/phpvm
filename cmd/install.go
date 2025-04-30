@@ -15,11 +15,11 @@ import (
 
 // installCmd represents the install command
 var installCmd = &cobra.Command{
-	Use:   "install [version]",
-	Short: "Install a version of PHP",
+	Use:     "install [version]",
+	Short:   "Install a version of PHP",
 	Aliases: []string{"i"},
-	Long: ``,
-	Args: cobra.ExactArgs(1),
+	Long:    ``,
+	Args:    cobra.ExactArgs(1),
 	Run: func(cmd *cobra.Command, args []string) {
 		fmt.Println("install called")
 		use := cmd.Flag("use").Value.String() == "true"
@@ -34,12 +34,12 @@ var installCmd = &cobra.Command{
 			} else {
 				fmt.Printf("Version %s already installed\n", version)
 			}
-					if setDefault {
-			config := utils.GetConfig()
-			config.SetDefault(version)
-		}
+			if setDefault {
+				config := utils.GetConfig()
+				config.SetDefault(version)
+			}
 
-				os.Exit(0)
+			os.Exit(0)
 		}
 
 		c := exec.Command("brew", "install", "php@"+version)

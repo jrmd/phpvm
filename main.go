@@ -1,6 +1,5 @@
 /*
 Copyright © 2025 Jerome Duncan <jerome@jrmd.dev>
-
 */
 package main
 
