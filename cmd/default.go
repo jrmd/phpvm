@@ -6,8 +6,8 @@ package cmd
 import (
 	"log"
 
+	"github.com/jrmd/phpvm/utils"
 	"github.com/spf13/cobra"
-	"jrmd.dev/phpvm/utils"
 )
 
 // defaultCmd represents the default command
@@ -30,6 +30,7 @@ var defaultCmd = &cobra.Command{
 		if err != nil {
 			log.Fatal(err)
 		}
+		config.SetCurrent(config.Default)
 	},
 }
 

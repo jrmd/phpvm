@@ -10,15 +10,34 @@ import (
 )
 
 type Config struct {
-	Default string `json:"default"`
+	Default  string   `json:"default"`
+	Current  string   `json:"current"`
+	Versions []string `json:"versions"`
 }
 
 func (c *Config) GetDefault() string {
 	return c.Default
 }
 
+func (c *Config) GetCurrent() string {
+	return c.Current
+}
+
 func (c *Config) SetDefault(version string) {
 	c.Default = version
+	WriteConfig(*c)
+}
+
+func (c *Config) SetCurrent(version string) {
+	c.Current = version
+	WriteConfig(*c)
+}
+
+func (c *Config) GetVersions() []string {
+	return c.Versions
+}
+
+func (c *Config) Save() {
 	WriteConfig(*c)
 }
 

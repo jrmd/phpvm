@@ -9,8 +9,8 @@ import (
 	"os"
 	"os/exec"
 
+	"github.com/jrmd/phpvm/utils"
 	"github.com/spf13/cobra"
-	"jrmd.dev/phpvm/utils"
 )
 
 // installCmd represents the install command
@@ -26,18 +26,21 @@ var installCmd = &cobra.Command{
 		setDefault := cmd.Flag("default").Value.String() == "true"
 		version := args[0]
 		if utils.VersionExists(version) {
+			config := utils.GetConfig()
+			config.Versions = utils.UniqAppend(config.Versions, version)
 			if use {
 				err := utils.SetVersion(version)
 				if err != nil {
 					log.Fatal(err)
 				}
+				config.Current = version
 			} else {
 				fmt.Printf("Version %s already installed\n", version)
 			}
 			if setDefault {
-				config := utils.GetConfig()
-				config.SetDefault(version)
+				config.Default = version
 			}
+			config.Save()
 
 			os.Exit(0)
 		}
@@ -47,17 +50,21 @@ var installCmd = &cobra.Command{
 			log.Fatal(err)
 		}
 
+		config := utils.GetConfig()
+		config.Versions = utils.UniqAppend(config.Versions, version)
 		fmt.Printf("Version %s installed\n", version)
 		if use {
 			err := utils.SetVersion(version)
 			if err != nil {
 				log.Fatal(err)
 			}
+			config.Current = version
 		}
 		if setDefault {
-			config := utils.GetConfig()
-			config.SetDefault(version)
+			config.Default = version
 		}
+
+		config.Save()
 	},
 }
 

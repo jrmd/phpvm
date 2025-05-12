@@ -7,8 +7,8 @@ import (
 	"fmt"
 	"os"
 
+	"github.com/jrmd/phpvm/utils"
 	"github.com/spf13/cobra"
-	"jrmd.dev/phpvm/utils"
 )
 
 // useCmd represents the use command
@@ -32,11 +32,16 @@ var useCmd = &cobra.Command{
 		}
 
 		fmt.Printf("Version %s set successfully\n", version)
+
+		config := utils.GetConfig()
+		config.Versions = utils.UniqAppend(config.Versions, version)
+
 		if setDefault {
-			config := utils.GetConfig()
-			config.SetDefault(version)
+			config.Default = version
 		}
 
+		config.Current = version
+		config.Save()
 	},
 }
 
