@@ -9,8 +9,15 @@
 
 ## Installation
 
+Using go cli
 ```
 go install github.com/jrmd/phpvm
+```
+
+Using brew
+```
+brew tap jrmd/tools
+brew install phpvm
 ```
 
 ## Configuration
