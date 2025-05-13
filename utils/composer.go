@@ -94,37 +94,51 @@ func AvailableVersions() semver.Collection {
 
 }
 
-func SetAppropriateVersion() (bool, error) {
+func GetAppropriateVersion() (string, error) {
 	constraint, err := GetPHPFromComposer()
 
 	if err != nil {
-		fmt.Println("Error getting PHP version from composer.json:", err)
-		return false, err
+		return "", err
 	}
 	config := GetConfig()
 
 	if ok, _ := VersionMatches(config.Current); ok {
-		return true, nil
+		return "", nil
 	}
 
 	versions := AvailableVersions()
 
 	c, err := semver.NewConstraint(constraint)
 	if err != nil {
-		log.Fatalf("Error parsing constraint: %s", err)
+		return "", err
 	}
 
 	for _, v := range versions {
 		if c.Check(v) {
-			err := SetVersion(v.Original())
-
-			if err == nil {
-				config.SetCurrent(v.Original())
-				return true, nil
-			}
+			return v.Original(), nil
 		}
 	}
 
-	fmt.Println("No matching version found")
+	return "", fmt.Errorf("no matching version found")
+}
+
+func SetAppropriateVersion() (bool, error) {
+	version, err := GetAppropriateVersion()
+	if err != nil {
+		return false, err
+	}
+
+	if version == "" {
+		return true, nil
+	}
+
+	err = SetVersion(version)
+
+	if err == nil {
+		config := GetConfig()
+		config.SetCurrent(version)
+		return true, nil
+	}
+
 	return false, nil
 }

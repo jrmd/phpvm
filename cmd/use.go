@@ -17,9 +17,20 @@ var useCmd = &cobra.Command{
 	Short:   "Set a version of PHP to use",
 	Long:    ``,
 	Aliases: []string{"u"},
-	Args:    cobra.ExactArgs(1),
 	Run: func(cmd *cobra.Command, args []string) {
-		version := args[0]
+		var version string
+		var err error
+
+		if len(args) > 0 {
+			version = args[0]
+		} else {
+			version, err = utils.GetAppropriateVersion()
+
+			if err != nil {
+				os.Exit(1)
+			}
+		}
+
 		setDefault := cmd.Flag("default").Value.String() == "true"
 		if !utils.VersionExists(version) {
 			fmt.Printf("Version %s does not exist\n", version)
