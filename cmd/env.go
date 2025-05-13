@@ -44,11 +44,11 @@ func GenZSH(env Env) {
 
 		if env.Now {
 			script += `
-				phpvm use
+				phpvm use &>/dev/null
 			`
 		} else {
 			script += `
-				phpvm default
+				phpvm default &>/dev/null
 			`
 		}
 
@@ -84,11 +84,11 @@ func GenBash(env Env) {
 
 		if env.Now {
 			script += `
-				phpvm use
+				phpvm use &>/dev/null
 			`
 		} else {
 			script += `
-				phpvm default
+				phpvm default &>/dev/null
 			`
 		}
 
@@ -101,7 +101,7 @@ func GenFish(env Env) {
 		if env.UseOnCd {
 			script += `
 				function __phpvmoncd --on-event cd
-					phpvm use
+					phpvm use > /dev/null ^ /dev/null
 				end
 			`
 		}
@@ -119,11 +119,11 @@ func GenFish(env Env) {
 
 		if env.Now {
 			script += `
-				phpvm use
+				phpvm use > /dev/null ^ /dev/null
 			`
 		} else {
 			script += `
-				phpvm default
+				phpvm default > /dev/null ^ /dev/null
 			`
 		}
 
