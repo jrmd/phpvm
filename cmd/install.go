@@ -21,7 +21,6 @@ var installCmd = &cobra.Command{
 	Long:    ``,
 	Args:    cobra.ExactArgs(1),
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("install called")
 		use := cmd.Flag("use").Value.String() == "true"
 		setDefault := cmd.Flag("default").Value.String() == "true"
 		version := args[0]
