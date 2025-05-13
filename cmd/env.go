@@ -13,55 +13,53 @@ import (
 )
 
 type Env struct {
-	Dir string
-	UseOnCd bool
+	Dir        string
+	UseOnCd    bool
 	MultiShell bool
-	Now bool
-	SessionId string
+	Now        bool
+	SessionId  string
 }
 
 func GenZSH(env Env) {
-		script := ""
-	
-		if env.UseOnCd {
-			script += `
+	script := ""
+
+	if env.UseOnCd {
+		script += `
 				function chpwd() {
 						phpvm use &>/dev/null # run phpvm cd
 				}
 			`
-		}
+	}
 
-		if env.MultiShell {
-			script += fmt.Sprintf(`
+	if env.MultiShell {
+		script += fmt.Sprintf(`
 				export PHPVM_SESSION="%s"
 			`, env.SessionId)
-		}
+	}
 
-
-		script += fmt.Sprintf(`
+	script += fmt.Sprintf(`
 			export PATH="%s/bin:%s/sbin:$PATH"
 		`, env.Dir, env.Dir)
 
-		if env.Now {
-			script += `
+	if env.Now {
+		script += `
 				phpvm use &>/dev/null
 			`
-		} else {
-			script += `
+	} else {
+		script += `
 				phpvm default &>/dev/null
 			`
-		}
+	}
 
-		fmt.Println(script)
+	fmt.Println(script)
 
 }
 
-
 func GenBash(env Env) {
 	script := ""
-	
-		if env.UseOnCd {
-			script += `
+
+	if env.UseOnCd {
+		script += `
 				__phpvmcd() {{
 					\cd "$@" || return $?
 					phpvm use
@@ -69,65 +67,63 @@ func GenBash(env Env) {
 
 				alias cd=__phpvmcd
 			`
-		}
+	}
 
-		if env.MultiShell {
-			script += fmt.Sprintf(`
+	if env.MultiShell {
+		script += fmt.Sprintf(`
 				export PHPVM_SESSION="%s"
 			`, env.SessionId)
-		}
+	}
 
-
-		script += fmt.Sprintf(`
+	script += fmt.Sprintf(`
 			export PATH="%s/bin:%s/sbin:$PATH"
 		`, env.Dir, env.Dir)
 
-		if env.Now {
-			script += `
+	if env.Now {
+		script += `
 				phpvm use &>/dev/null
 			`
-		} else {
-			script += `
+	} else {
+		script += `
 				phpvm default &>/dev/null
 			`
-		}
+	}
 
-		fmt.Println(script)
+	fmt.Println(script)
 }
 
 func GenFish(env Env) {
-		script := ""
-	
-		if env.UseOnCd {
-			script += `
+	script := ""
+
+	if env.UseOnCd {
+		script += `
 				function __phpvmoncd --on-event cd
 					phpvm use > /dev/null ^ /dev/null
 				end
 			`
-		}
+	}
 
-		if env.MultiShell {
-			script += fmt.Sprintf(`
+	if env.MultiShell {
+		script += fmt.Sprintf(`
 				set -gx PHPVM_SESSION "%s"
 			`, env.SessionId)
-		}
+	}
 
-
-		script += fmt.Sprintf(`
+	script += fmt.Sprintf(`
 			set -gx PATH "%s/bin" "%s/sbin" $PATH
 		`, env.Dir, env.Dir)
 
-		if env.Now {
-			script += `
+	if env.Now {
+		script += `
 				phpvm use > /dev/null ^ /dev/null
 			`
-		} else {
-			script += `
+	} else {
+		script += `
 				phpvm default > /dev/null ^ /dev/null
 			`
-		}
+	}
 
-		fmt.Println(script)
+	fmt.Println(script)
 }
 
 // envCmd represents the env command
@@ -138,7 +134,7 @@ var envCmd = &cobra.Command{
 		useOnCd := cmd.Flag("use-on-cd").Value.String() == "true"
 		multiShell := cmd.Flag("multi-shell").Value.String() == "true"
 		now := cmd.Flag("multi-shell").Value.String() == "true"
-		
+
 		session := fmt.Sprintf("%d_%d", os.Getpid(), time.Now().UnixMicro())
 
 		if multiShell {
@@ -152,7 +148,7 @@ var envCmd = &cobra.Command{
 		if err != nil {
 			os.Exit(1)
 		}
-		env := Env {
+		env := Env{
 			dir,
 			useOnCd,
 			multiShell,
@@ -161,12 +157,12 @@ var envCmd = &cobra.Command{
 		}
 
 		switch args[0] {
-			case "zsh":
-				GenZSH(env)
-			case "bash":
-				GenBash(env)
-			case "fish":
-				GenFish(env)
+		case "zsh":
+			GenZSH(env)
+		case "bash":
+			GenBash(env)
+		case "fish":
+			GenFish(env)
 		}
 	},
 }

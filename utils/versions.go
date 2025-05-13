@@ -79,8 +79,7 @@ func ShellConfigExists() (bool, error) {
 	return true, nil
 }
 
-
-func WriteCurrent( version string ) {
+func WriteCurrent(version string) {
 	shell := GetShell()
 	shell.Current = version
 	shell.Write()
@@ -104,7 +103,6 @@ func GetShell() ShellConf {
 	}
 	configFile := path.Join(configDir, "config.json")
 
-	
 	conf, err := os.ReadFile(configFile)
 
 	if err != nil {
