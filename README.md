@@ -27,9 +27,8 @@ To make `phpvm` available in your terminal, you need to add its binary directory
 Add the following lines to your shell configuration file (e.g., `~/.zshrc`, `~/.bash_profile`, `~/.config/fish/config.fish`):
 
 ```bash
-export PATH="$HOME/.phpvm/bin:$HOME/.phpvm/sbin:$PATH"
 eval "$(phpvm completion <your_shell>)" # Replace <your_shell> with your shell (e.g., zsh, bash)
-phpvm default
+eval "$(phpvm env <your_shell>)"
 ```
 
 After adding these lines, reload your shell configuration:
@@ -37,6 +36,7 @@ After adding these lines, reload your shell configuration:
 ```bash
 source ~/.zshrc # Or your shell config file
 ```
+
 
 ## Usage
 
@@ -52,6 +52,28 @@ Available Commands:
     use         Set a version of PHP to use
     Flags:
     -h, --help     help for phpvm
+```
+
+
+### `php env [shell]`
+
+Sets up the env variables for the specified shell.
+
+```
+Print and set up required environment variables for bash, zsh, fish
+
+Usage:
+  phpvm env [shell] [flags]
+
+Flags:
+  -h, --help          help for env
+  -m, --multi-shell   Different phpversion per shell
+  -n, --now           run phpvm use now
+  -c, --use-on-cd     Use phpvm cd on cd
+```
+
+e.g `phpvm env zsh --use-on-cd --multi-shell`
+```
 ```
 
 ### `phpvm cd`

@@ -28,3 +28,18 @@ func PhpVMPath() (string, error) {
 
 	return path.Join(home, ".phpvm"), nil
 }
+
+func GetEnvDir() (string, error) {
+	sess := os.Getenv("PHPVM_SESSION")
+
+	if sess == "" {
+		return PhpVMPath()
+	}
+
+	home, err := os.UserHomeDir()
+	if err != nil {
+		return "", err
+	}
+
+	return path.Join(home, ".local/state/phpvm_multishell", sess), nil
+}

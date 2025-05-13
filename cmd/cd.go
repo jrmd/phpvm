@@ -4,6 +4,8 @@ Copyright © 2025 Jerome Duncan <jerome@jrmd.dev>
 package cmd
 
 import (
+	"fmt"
+
 	"github.com/jrmd/phpvm/utils"
 	"github.com/spf13/cobra"
 )
@@ -13,6 +15,7 @@ var cdCmd = &cobra.Command{
 	Use:   "cd",
 	Short: "Use composer php requirements",
 	Run: func(cmd *cobra.Command, args []string) {
+		fmt.Println("cd called")
 		utils.SetAppropriateVersion()
 	},
 }

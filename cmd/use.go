@@ -20,14 +20,18 @@ var useCmd = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		var version string
 		var err error
-
+		config := utils.GetConfig()
 		if len(args) > 0 {
 			version = args[0]
 		} else {
 			version, err = utils.GetAppropriateVersion()
 
 			if err != nil {
-				os.Exit(1)
+				if config.Default == "" {
+					os.Exit(1)
+				}
+
+				version = config.Default
 			}
 		}
 
@@ -44,7 +48,6 @@ var useCmd = &cobra.Command{
 
 		fmt.Printf("Version %s set successfully\n", version)
 
-		config := utils.GetConfig()
 		config.Versions = utils.UniqAppend(config.Versions, version)
 
 		if setDefault {

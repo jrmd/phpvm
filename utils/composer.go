@@ -100,10 +100,12 @@ func GetAppropriateVersion() (string, error) {
 	if err != nil {
 		return "", err
 	}
-	config := GetConfig()
+	current := GetCurrent()
 
-	if ok, _ := VersionMatches(config.Current); ok {
-		return "", nil
+	if current != "" {
+		if ok, _ := VersionMatches(current); ok {
+			return "", nil
+		}
 	}
 
 	versions := AvailableVersions()
